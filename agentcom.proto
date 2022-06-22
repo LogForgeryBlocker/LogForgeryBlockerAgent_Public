@@ -1,0 +1,46 @@
+// protobuf messages for communication between agent and log proxies
+// to compile, create subdirectory called 'protobuf', then compile with 'protoc -I=. --python_out=protobuf agentcom.proto'
+
+syntax = "proto3";
+
+package LogForgeryBlocker.Agent;
+
+import "google/protobuf/timestamp.proto";
+
+
+
+message Log {
+    string name = 1;
+}
+
+message Record {
+    Log log = 1;
+    google.protobuf.Timestamp timestamp = 2;
+    string message = 3;
+}
+
+
+message LogPosition {
+    Log log = 1;
+    int32 position = 2;
+}
+
+
+message LogContentRequest {
+    Log log = 1;
+    uint32 request_id = 2;
+    uint64 begin_record = 3;
+    uint64 end_record = 4;
+}
+
+message LogContentResponse {
+    uint32 request_id = 1;
+    int32 status = 2;
+}
+
+message LogContentData {
+    uint32 request_id = 1;
+    uint64 begin_record = 2;
+    uint64 end_record = 3;
+    repeated string contents = 4;
+}
